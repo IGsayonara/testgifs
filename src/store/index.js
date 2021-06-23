@@ -30,7 +30,10 @@ export default new Vuex.Store({
             }).then((r) => r.data.data);
 
             commit("OVERFILL_GIFS_ARRAY", response)
-            commit("CHANGE_IS_LOADING", false)
+            setTimeout(() =>{
+                commit("CHANGE_IS_LOADING", false)
+            }, 500)
+
         },
         async pagination({commit, state}, data) {
             const params = config
@@ -68,7 +71,9 @@ export default new Vuex.Store({
 
                 commit("CHANGE_NOT_FOUND_GIF", response)
             }
-            commit("CHANGE_IS_LOADING", false)
+            setTimeout(() =>{
+                commit("CHANGE_IS_LOADING", false)
+            }, 500)
         },
         loadingStatusChanging({commit}, data){
             commit("CHANGE_IS_LOADING", data)
