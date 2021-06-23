@@ -1,12 +1,13 @@
 <template lang="pug">
   .gif-wrap
     v-img(
-      v-if="!isHovered"
+      v-if="!isFullShowing"
       :src="preview"
       width="100%"
       aspect-ratio="1"
       :contain="true"
-      @mouseover="isHovered = true"
+      @mouseover="getFull"
+      @mouseout="cancel"
     )
     v-img(
       v-else
@@ -23,10 +24,23 @@ export default {
   name: "AppGif",
   data(){
     return{
-      isHovered: false
+      isFullShowing: false,
+      isHover: false,
     }
   },
-  props: ['url', 'preview']
+  props: ['url', 'preview'],
+  methods: {
+    getFull(){
+      this.isHover = true
+      setTimeout(()=>{
+        if(this.isHover) this.isFullShowing = true
+      }, 800)
+    },
+    cancel(){
+      this.isHover = false
+    }
+
+  }
 }
 </script>
 
