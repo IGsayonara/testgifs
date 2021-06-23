@@ -22,9 +22,16 @@
             append-icon="mdi-magnify"
             rounded
             filled
-            @input="searchMethod"
+            v-debounce:1000ms="searchMethod"
+            @keydown="isTyping = true"
             v-model="searchValue"
           )
+    .content-preloader(v-if="isTyping")
+      v-img.mb-3(
+        src="@/assets/preloader.gif"
+        max-width="300px"
+      )
+
 </template>
 
 <script>
@@ -35,25 +42,31 @@ export default {
   name: "AppHeader",
   data(){
     return {
-      searchValue: ""
+      searchValue: "",
+      isTyping: ""
     }
   },
   created(){
-    this.pagination("cat")
+    this.init()
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight
 
       if (bottomOfWindow) {
-        this.pagination(this.searchValue || "cat")
+        this.pagination(this.searchValue)
       }
     }
   },
   methods: {
-    ...mapActions(['pagination', 'search']),
+    ...mapActions(['pagination', 'search', 'init']),
     searchMethod(){
-      console.log('search')
       window.scrollTo({top: 0})
-      this.search(this.searchValue || "cat")
+      this.isTyping = false
+      if(this.searchValue){
+        this.search(this.searchValue)
+      }
+      else {
+        this.init()
+      }
     }
 
   }
@@ -70,4 +83,15 @@ export default {
     z-index: 2
     background-color: white
     border-bottom: 1px solid rgba(0, 0, 0, 0.2)
+  .content-preloader
+    width: 100%
+    height: calc(100vh - 80px)
+    position: fixed
+    top: 80px
+    left: 0
+    background-color: white
+    opacity: 0.95
+    display: flex
+    justify-content: center
+    align-items: center
 </style>

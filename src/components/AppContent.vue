@@ -3,8 +3,8 @@
     v-container
       v-row(v-if="getGifs.length")
         v-col(
-          v-for="item in getGifs"
-          :key="item.id"
+          v-for="(item, index) in getGifs"
+          :key="item.id + index"
           cols="6"
           sm="4"
           md="3"
@@ -45,7 +45,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
 .content
   padding-top: 80px
 </style>

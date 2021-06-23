@@ -6,6 +6,8 @@
       width="100%"
       aspect-ratio="1"
       :contain="true"
+      @touchstart="getFull"
+      @touchend="cancel"
       @mouseover="getFull"
       @mouseout="cancel"
     )
@@ -22,21 +24,21 @@
 <script>
 export default {
   name: "AppGif",
-  data(){
-    return{
+  data() {
+    return {
       isFullShowing: false,
       isHover: false,
     }
   },
   props: ['url', 'preview'],
   methods: {
-    getFull(){
+    getFull() {
       this.isHover = true
-      setTimeout(()=>{
-        if(this.isHover) this.isFullShowing = true
+      setTimeout(() => {
+        if (this.isHover) this.isFullShowing = true
       }, 800)
     },
-    cancel(){
+    cancel() {
       this.isHover = false
     }
 
