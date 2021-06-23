@@ -14,7 +14,7 @@
             :preview="item.images.preview_gif.url"
           )
       v-row(
-        v-else
+        v-else-if="getNotFoundGif"
         justify="center"
       )
         v-col(
@@ -22,7 +22,7 @@
           sm="6"
         )
           v-img(
-            src="@/assets/404.gif"
+            :src="getNotFoundGif.images.original.url"
             :contain="true"
           )
 
@@ -30,14 +30,14 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import AppGif from "@/components/AppGif";
 
 export default {
   name: "AppContent",
   components: {AppGif},
   computed: {
-    ...mapGetters(['getGifs'])
+    ...mapGetters(['getGifs', 'getNotFoundGif'])
   },
 
 }

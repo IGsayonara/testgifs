@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         gifsArray: [],
-        notFoundGif: null
+        notFoundGif: null,
+        isLoading: false
     },
     getters: {
         getGifs(state) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
         },
         getNotFoundGif(state) {
             return state.notFoundGif
+        },
+        getIsLoading(state) {
+            return state.isLoading
         }
     },
     actions: {
@@ -26,6 +30,7 @@ export default new Vuex.Store({
             }).then((r) => r.data.data);
 
             commit("OVERFILL_GIFS_ARRAY", response)
+            commit("CHANGE_IS_LOADING", false)
         },
         async pagination({commit, state}, data) {
             const params = config
@@ -54,14 +59,19 @@ export default new Vuex.Store({
             }).then((r) => r.data.data);
 
             commit("OVERFILL_GIFS_ARRAY", response)
+
+            if (!response.length) {
+                params.tag = "Not Found"
+                response = await axios.get("https://api.giphy.com/v1/gifs/random", {
+                    params
+                }).then((r) => r.data.data);
+
+                commit("CHANGE_NOT_FOUND_GIF", response)
+            }
+            commit("CHANGE_IS_LOADING", false)
         },
-        async notFound({commit}){
-            const params = config
-            params.tag = "Not Found"
-            let response = await axios.get("https://api.giphy.com/v1/gifs/random", {
-                params
-            })
-            commit("CHANGE_NOT_FOUND_GIF", response)
+        loadingStatusChanging({commit}, data){
+            commit("CHANGE_IS_LOADING", data)
         }
     },
     mutations: {
@@ -71,9 +81,13 @@ export default new Vuex.Store({
         ADD_TO_GIFS_ARRAY(state, data) {
             state.gifsArray.push(...data)
         },
-        CHANGE_NOT_FOUND_GIF(state, data){
+        CHANGE_NOT_FOUND_GIF(state, data) {
             state.notFoundGif = data
+        },
+        CHANGE_IS_LOADING(state, data){
+            state.isLoading = data
         }
+
     },
     modules: {}
 })

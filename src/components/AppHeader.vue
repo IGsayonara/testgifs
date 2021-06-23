@@ -23,10 +23,10 @@
             rounded
             filled
             v-debounce:1000ms="searchMethod"
-            @keydown="isTyping = true"
+            @input="loadingStatusChanging(true)"
             v-model="searchValue"
           )
-    .content-preloader(v-if="isTyping")
+    .content-preloader(v-if="getIsLoading")
       v-img.mb-3(
         src="@/assets/preloader.gif"
         max-width="300px"
@@ -36,35 +36,35 @@
 
 <script>
 
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "AppHeader",
-  data(){
+  data() {
     return {
       searchValue: "",
-      isTyping: ""
     }
   },
-  created(){
+  computed: {
+    ...mapGetters(['getIsLoading'])
+  },
+  created() {
     this.init()
     window.onscroll = () => {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight
 
-      if (bottomOfWindow) {
+      if (bottomOfWindow && !this.getIsLoading) {
         this.pagination(this.searchValue)
       }
     }
   },
   methods: {
-    ...mapActions(['pagination', 'search', 'init']),
-    searchMethod(){
+    ...mapActions(['pagination', 'search', 'init', 'loadingStatusChanging']),
+    searchMethod() {
       window.scrollTo({top: 0})
-      this.isTyping = false
-      if(this.searchValue){
+      if (this.searchValue) {
         this.search(this.searchValue)
-      }
-      else {
+      } else {
         this.init()
       }
     }
@@ -74,24 +74,25 @@ export default {
 </script>
 
 <style scoped lang="sass">
-  .header
-    height: 80px
-    width: 100%
-    position: fixed
-    top: 0
-    left: 0
-    z-index: 2
-    background-color: white
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2)
-  .content-preloader
-    width: 100%
-    height: calc(100vh - 80px)
-    position: fixed
-    top: 80px
-    left: 0
-    background-color: white
-    opacity: 0.95
-    display: flex
-    justify-content: center
-    align-items: center
+.header
+  height: 80px
+  width: 100%
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 2
+  background-color: white
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2)
+
+.content-preloader
+  width: 100%
+  height: calc(100vh - 80px)
+  position: fixed
+  top: 80px
+  left: 0
+  background-color: white
+  opacity: 0.95
+  display: flex
+  justify-content: center
+  align-items: center
 </style>
