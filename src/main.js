@@ -9,7 +9,7 @@ Vue.use(vueDebounce)
 Vue.config.productionTip = false
 
 new Vue({
-  store,
-  vuetify,
-  render: h => h(App)
+    store,
+    vuetify,
+    render: h => h(App)
 }).$mount('#app')

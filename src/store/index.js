@@ -30,7 +30,7 @@ export default new Vuex.Store({
             }).then((r) => r.data.data);
 
             commit("OVERFILL_GIFS_ARRAY", response)
-            setTimeout(() =>{
+            setTimeout(() => {
                 commit("CHANGE_IS_LOADING", false)
             }, 500)
 
@@ -71,11 +71,11 @@ export default new Vuex.Store({
 
                 commit("CHANGE_NOT_FOUND_GIF", response)
             }
-            setTimeout(() =>{
+            setTimeout(() => {
                 commit("CHANGE_IS_LOADING", false)
             }, 500)
         },
-        loadingStatusChanging({commit}, data){
+        loadingStatusChanging({commit}, data) {
             commit("CHANGE_IS_LOADING", data)
         }
     },
@@ -89,7 +89,7 @@ export default new Vuex.Store({
         CHANGE_NOT_FOUND_GIF(state, data) {
             state.notFoundGif = data
         },
-        CHANGE_IS_LOADING(state, data){
+        CHANGE_IS_LOADING(state, data) {
             state.isLoading = data
         }
 
