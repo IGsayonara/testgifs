@@ -11,6 +11,7 @@
         )
           AppGif(
             :url="item.images.original.url"
+            :preview="item.images.preview_gif.url"
           )
       v-row(
         v-else
@@ -21,7 +22,6 @@
           sm="6"
         )
           v-img(
-
             src="@/assets/404.gif"
             :contain="true"
           )
@@ -45,8 +45,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.v-image
-  background-color: black
+
 .content
   padding-top: 80px
 </style>

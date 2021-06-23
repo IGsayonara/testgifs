@@ -1,28 +1,36 @@
 <template lang="pug">
-  v-img(
-    :src="url"
-    width="100%"
-    aspect-ratio="1"
-    :contain="true"
-  )
-    template(v-slot:placeholder)
-      v-row.fill-height.ma-0(
-        align="center"
-        justify="center"
-      )
-        v-progress-circular(
-          indeterminate
-          color="white lighten-5"
-        )
+  .gif-wrap
+    v-img(
+      v-if="!isHovered"
+      :src="preview"
+      width="100%"
+      aspect-ratio="1"
+      :contain="true"
+      @mouseover="isHovered = true"
+    )
+    v-img(
+      v-else
+      :src="url"
+      width="100%"
+      aspect-ratio="1"
+      :contain="true"
+    )
+
 </template>
 
 <script>
 export default {
   name: "AppGif",
-  props: ['url']
+  data(){
+    return{
+      isHovered: false
+    }
+  },
+  props: ['url', 'preview']
 }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+.v-image
+  background-color: black
 </style>
