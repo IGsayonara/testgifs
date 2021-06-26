@@ -51,7 +51,7 @@ export default {
   created() {
     this.init()
     window.onscroll = () => {
-      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight > document.documentElement.offsetHeight - 20
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight
 
       if (bottomOfWindow && !this.getIsLoading) {
         this.pagination(this.searchValue)
