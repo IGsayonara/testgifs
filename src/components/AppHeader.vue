@@ -10,6 +10,7 @@
             src="@/assets/logo.png"
             max-height="50px"
             :contain="true"
+            @click="shareViaWebShare"
           )
         v-col.search-wrap(
           cols="9"
@@ -46,12 +47,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getIsLoading'])
+    ...mapGetters(['getIsLoading']),
+
   },
   created() {
     this.init()
     window.onscroll = () => {
-      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight
+      let bottomOfWindow = window.innerHeight + window.scrollY >= document.body.scrollHeight
 
       if (bottomOfWindow && !this.getIsLoading) {
         this.pagination(this.searchValue)
@@ -67,6 +69,13 @@ export default {
       } else {
         this.init()
       }
+    },
+    shareViaWebShare() {
+      navigator.share({
+        title: 'TestGifs',
+        text: 'Share with yours friends',
+        url: location.href
+      })
     }
 
   }

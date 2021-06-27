@@ -3,6 +3,7 @@ import App from './App.vue'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import vueDebounce from 'vue-debounce'
+import './registerServiceWorker'
 
 Vue.use(vueDebounce)
 
